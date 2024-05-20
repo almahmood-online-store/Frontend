@@ -4,7 +4,6 @@ import Swiper from 'react-native-swiper'
 export default function Slider(props) {
   //? Props
   const { data } = props
-
   //? Render(s)
   if (data?.length === 0) return null
 

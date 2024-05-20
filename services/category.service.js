@@ -7,49 +7,84 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
         url: '/api/category',
         method: 'GET',
       }),
+      transformResponse: (response, meta, arg) => {
+        if (!response.docs) {
+          throw new Error('Invalid response format')
+        }
+        return response
+      },
       providesTags: (result, error, arg) =>
         result
-          ? [
-              ...result?.data?.categories.map(({ _id }) => ({
-                type: 'Category',
-                id: _id,
-              })),
-              'Category',
-            ]
-          : ['Category'],
-    }),
-
-    getSingleCategory: builder.query({
-      query: ({ id }) => ({
-        url: `/api/category/${id}`,
-        method: 'GET',
-      }),
-      providesTags: (result, error, arg) => [{ type: 'Category', id: arg.id }],
-    }),
-
-    updateCategory: builder.mutation({
-      query: ({ id, body }) => ({
-        url: `/api/category/${id}`,
-        method: 'PUT',
-        body,
-      }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Category', id: arg.id }],
-    }),
-
-    createCategory: builder.mutation({
-      query: ({ body }) => ({
-        url: '/api/category',
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: ['Category'],
+          ? result.docs.map(({ id }) => ({
+              type: 'Category',
+              id,
+            }))
+          : [],
     }),
   }),
 })
 
+//     result.docs.map(({ id, name }) => {
+//       id: id
+//       name: name
+//       console.log(id, name)
+//     })
+//   },
+// }),
+
+//     result
+//     ? //the following will get the id of each category:
+//       [
+//         ...result?.docs?.map(({ id }) => ({
+//           type: 'Category',
+//           id: id,
+//         })),
+//         'Category',
+//       ]
+//     : ['Category']
+//   console.log(result.docs.map(({ id }) => {
+
+//   }  ))
+// },
+// }),
+
+// getSingleCategory: builder.query({
+//   query: ({ id }) => ({
+//     url: `/api/category/${id}`,
+//     method: 'GET',
+//     //credentials: 'omit',
+//   }),
+//   providesTags: (result, error, arg) => [
+//     {
+//       type: 'Category',
+//       id: arg.id,
+//     },
+//   ],
+// }),
+
+// updateCategory: builder.mutation({
+//   query: ({ id, body }) => ({
+//     url: `/api/category/${id}`,
+//     method: 'PUT',
+//     body,
+//   }),
+//   invalidatesTags: (result, error, arg) => [{ type: 'Category', id: arg.id }],
+// }),
+
+// createCategory: builder.mutation({
+//   query: ({ body }) => ({
+//     url: '/api/category',
+//     method: 'POST',
+//     body,
+//   }),
+//   invalidatesTags: ['Category'],
+// }),
+//   }),
+// })
+
 export const {
-  useCreateCategoryMutation,
+  //useCreateCategoryMutation,
   useGetCategoriesQuery,
-  useGetSingleCategoryQuery,
-  useUpdateCategoryMutation,
+  // useGetSingleCategoryQuery,
+  //useUpdateCategoryMutation,
 } = categoryApiSlice

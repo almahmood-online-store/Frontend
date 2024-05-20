@@ -4,11 +4,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query({
       query: ({ category, page_size, page, sort, search, inStock, discount, price }) => {
-        return {
-          url: `/api/products`,
-          method: 'GET',
-          params: { category, page_size, page, sort, search, inStock, discount, price },
-        }
+        return (
+          {
+            url: `/api/products`,
+            method: 'GET',
+            params: { category, page_size, page, sort, search, inStock, discount, price },
+          },
+          console.log('category is: ', category)
+        )
       },
       serializeQueryArgs: ({ queryArgs, ...rest }) => {
         const newQueryArgs = { ...queryArgs }
